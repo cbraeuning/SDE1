@@ -1,14 +1,14 @@
 %% Collin Braeuning - cbraeun
 %% SDE1	- CYK Parse Tables
 
-/* 
+/*
 named production *set* as arity-2 predicate: productions/2
-Prototype: productions(+Name,-Data). 
+Prototype: productions(+Name,-Data).
 */
 productions(book, [["S","AB"],["S","BB"],["A","CC"],["A","AB"],["A","a"],
 ["B","BB"],["B","CA"],["B","b"],["C","BA"],["C","AA"],["C","b"]]).
 
-/* 
+/*
 string to parse: astring/2
 Prototype: astring(+Name, -Data)
 */
@@ -44,3 +44,29 @@ get_table_values_cell([Col,Row],Table,ContentsL) :-
 	Row >= 1,
 	nth1(Row,Table,TempRow),
 	nth1(Col,TempRow,ContentsL).
+
+/*
+decompositions/2
+Prototype: decompositions(+N,-List_of_decomposition_sublists)
+N is string length. This predicate is used for
+forming list of decomposition sublists of form [j,k]
+where [j,k] means a list of length j followed by a list of length k
+i.e., the ’j+k’ decomposition in the CYK table formation.
+Note: This is not cell j,k in the table
+*/
+decompositionsHelper(_, 1, NewList, NewList).
+
+decompositionsHelper(Length,CurrentLength,NewList,OrigList) :-
+	CurrentLength > 1,
+
+	Left is CurrentLength-1,
+	Right is Length - Left,
+	TempList = [Left,Right],
+
+	ord_add_element(NewList,TempList,PassList),
+	decompositionsHelper(Length,Left,PassList,OrigList).
+
+decompositions(Length,List) :-
+	decompositionsHelper(Length,Length,_,List).
+
+
