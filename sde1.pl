@@ -78,6 +78,29 @@ decompositionsHelper(Length,CurrentLength,DecompList,OrigList) :-
 	% recursively call the function and add more decomposition until we hit the base case
 	decompositionsHelper(Length,LeftNum,NewDecompList,OrigList).
 
+/* 
+first, product of one nonterminal (not a list)
+and another cell (list) contents 
+Prototype: one_product(+Nonterminal,+Cell,-Product)
+*/
+one_product(Nonterminal, CellList, Product) :-
+	EmptyList = [],
+	one_product_helper(Nonterminal, CellList, EmptyList, Product).
+
+one_product_helper(_, [], NewProduct, OrigProduct) :-
+	OrigProduct = NewProduct.
+
+one_product_helper([], _, _, OrigProduct) :-
+	OrigProduct = [].
+
+one_product_helper(Nonterminal, CellList, NewProduct, OrigProduct) :-
+	% separate 
+	nth1(1,CellList,SelectedElement,NewCellList),
+	string_concat(Nonterminal,SelectedElement,ElementProduct),
+	append(NewProduct, [ElementProduct], PassProduct),
+	one_product_helper(Nonterminal, NewCellList, PassProduct, OrigProduct).
+
+
 
 
 
