@@ -94,11 +94,40 @@ one_product_helper([], _, _, OrigProduct) :-
 	OrigProduct = [].
 
 one_product_helper(Nonterminal, CellList, NewProduct, OrigProduct) :-
-	% separate 
+	% separate the head from tail of Celllist
 	nth1(1,CellList,SelectedElement,NewCellList),
+	%combine the two items into one string like "AB" 
 	string_concat(Nonterminal,SelectedElement,ElementProduct),
+	%turn the string into a list list ["AB"] and insert it
 	append(NewProduct, [ElementProduct], PassProduct),
+	% recursively call this function until the celllist is empty
 	one_product_helper(Nonterminal, NewCellList, PassProduct, OrigProduct).
+
+/*
+Used to produce the outer product of two lists
+Prototype: cell_products(+Cell1,+Cell2,-Product)
+ Either cell could be empty.
+*/
+cell_products(CellList1,CellList2,Product) :-
+	EmptyList = [],
+	cell_products_helper(CellList1,CellList2,EmptyList,Product).
+
+% Base case where the first list is empty, meaning we are done with recursion
+cell_products_helper([], _, NewProduct, OrigProduct) :-
+	OrigProduct = NewProduct.
+
+% If the user enters an empty second list set the output to an EmptyList
+cell_products_helper(_, [], _, OrigProduct) :-
+	OrigProduct = [].
+
+cell_products_helper(CellList1,CellList2,NewProduct,OrigProduct) :-
+	% separate the head form the tail of CellList1
+	nth1(1,CellList1,SelectedElement,NewCellList1),
+	% get the inner product of CellList1's head and CellList2
+	one_product(SelectedElement,CellList2,InnerProduct),
+	append(NewProduct,InnerProduct,PassProduct),
+	cell_products_helper(NewCellList1,CellList2,PassProduct,OrigProduct).
+
 
 
 
