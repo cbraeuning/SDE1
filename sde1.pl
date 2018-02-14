@@ -70,6 +70,7 @@ decompositionsHelper(Length,CurrentLength,DecompList,OrigList) :-
 	decompositionsHelper(Length,LeftNum,NewDecompList,OrigList).
 
 decompositions(Length,List) :-
-	decompositionsHelper(Length,Length,_,List).
+	EmptyList = [],
+	decompositionsHelper(Length,Length,EmptyList,List).
 
 
