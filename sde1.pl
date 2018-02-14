@@ -54,17 +54,20 @@ where [j,k] means a list of length j followed by a list of length k
 i.e., the ’j+k’ decomposition in the CYK table formation.
 Note: This is not cell j,k in the table
 */
-decompositionsHelper(_, 1, NewList, NewList).
+decompositionsHelper(_, 1, NewList, OrigList) :-
+	OrigList = NewList.
 
-decompositionsHelper(Length,CurrentLength,NewList,OrigList) :-
+decompositionsHelper(Length,CurrentLength,DecompList,OrigList) :-
 	CurrentLength > 1,
 
-	Left is CurrentLength-1,
-	Right is Length - Left,
-	TempList = [Left,Right],
+	LeftNum is CurrentLength-1,
+	RightNum is Length - LeftNum,
+	Decompostion = [LeftNum,RightNum],
 
-	ord_add_element(NewList,TempList,PassList),
-	decompositionsHelper(Length,Left,PassList,OrigList).
+	%ord_add_element(NewList,TempList,PassList),
+	%decompositionsHelper(Length,Left,PassList,OrigList).
+	nth1(RightNum,NewDecompList,Decompostion,DecompList),
+	decompositionsHelper(Length,LeftNum,NewDecompList,OrigList).
 
 decompositions(Length,List) :-
 	decompositionsHelper(Length,Length,_,List).
