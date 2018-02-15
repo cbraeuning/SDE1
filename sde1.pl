@@ -155,7 +155,7 @@ form_row1_cell_helper(StringElement,ProductionsList,NewRow1,OrigRow1) :-
 	nth1(1,FirstProd,NonTerminal),
 	subtract(FirstProd,[NonTerminal,StringElement],TestProd),
 	is_derivation(TestProd,NonTerminal,IsDerivation),
-	append(IsDerivation,NewRow1,PassRow1),
+	append(NewRow1,IsDerivation,PassRow1),
 	% recursion
 	form_row1_cell_helper(StringElement,NewProductionsList,PassRow1,OrigRow1).
 
