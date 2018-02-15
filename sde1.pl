@@ -174,6 +174,20 @@ is_derivation([],NonTerminal,NonTerminal).
 % does not result in our element so pass back an empty set.
 is_derivation(_,_,[]).
 
-
+/*
+Prototype: equivalent(+A,+B)
+Succeeds if contents of the cells (lists) are identical
+Order doesn't matter, and assuming no duplicates
+*/
+equivalent(ListA, ListB) :-
+	% subtracts ListB from ListA and checks if its empty
+	subtract(ListA,ListB,DiffListA),
+	equivalent_helper(DiffListA),
+	% this covers the case of |ListB| > |ListA|
+	% both subtractions must result in an empty list
+	subtract(ListB,ListA,DiffListB),
+	equivalent_helper(DiffListB).
+% If the list isn't empty the function won't be called, returning false
+equivalent_helper([]).
 
 
