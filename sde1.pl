@@ -146,21 +146,32 @@ form_row1_cell(StringElement,ProductionsList,OrigRow1) :-
 	EmptyList = [],
 	form_row1_cell_helper(StringElement,ProductionsList,EmptyList,OrigRow1).
 
+% base case where we are at the end of the production list, so set the list and exit
 form_row1_cell_helper(_,[],NewRow1,OrigRow1) :-
 	OrigRow1 = NewRow1.
 
-form_row1_cell_helper(StringElement,ProductionsList,NewRow1,OrigRow1) :-
-	% remove first row from the production list
-	nth1(1,ProductionsList,FirstProd,NewProductionsList),
+form_row1_cell_helper(StringElement,[FirstProd|RemainProds],NewRow1,OrigRow1) :-
+	% get the first element from the production you're examining
 	nth1(1,FirstProd,NonTerminal),
-	subtract(FirstProd,[NonTerminal,StringElement],TestProd),
-	is_derivation(TestProd,NonTerminal,IsDerivation),
+	% get the second element to see if it matches string element
+	nth1(2,FirstProd,PossiblyTerminal),
+	% we determines whether our search element and current element are the same
+	subtract([PossiblyTerminal],[StringElement],TestProd),
+	% find out if it is a derivation, eg if the list is empty Nonterminal is a derivation 
+	is_derivation(TestProd,[NonTerminal],IsDerivation),
+	% append whatever the result ends up being
 	append(NewRow1,IsDerivation,PassRow1),
-	% recursion
-	form_row1_cell_helper(StringElement,NewProductionsList,PassRow1,OrigRow1).
+	% recursively call this function until the production list is empty
+	form_row1_cell_helper(StringElement,RemainProds,PassRow1,OrigRow1).
 
-is_derivation([],NonTerminal,[NonTerminal]).
+% is_derivation determines whether the NonTerminal being examined results
+% in the element we are searching for.
 
+% case where the difference is the empty set, meaning the NonTerminal 
+% results in the element we are searching for so pass it back.
+is_derivation([],NonTerminal,NonTerminal).
+% case where the difference is not the empty set, meaning the NonTerminal
+% does not result in our element so pass back an empty set.
 is_derivation(_,_,[]).
 
 
