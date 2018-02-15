@@ -17,6 +17,7 @@ astring(bookstring,["a", "a", "b", "b"]).
 /*
 table/2
 Prototype: table(+Name,-Data)
+Use the different names to get new sets of data
 */
 table(sample_table4,[
 [["11"],["21"],["31"],["41"]],
@@ -37,7 +38,35 @@ table(book_result, [
 [["C"], ["S", "A"], ["S", "B", "A"]],
 [["C", "A"], ["C", "S", "A"]],
 [["C", "B", "S", "A"]]
-], ["test","b"]).
+]).
+
+table(book, [
+[["A"], ["A"], ["B", "C"], ["B", "C"]],
+[["C"], ["S", "A"], ["S", "B", "A"]],
+[["C", "A"], ["C", "S", "A"]],
+[["C", "B", "S", "A"]]
+]).
+
+table(book3, [
+[["A"], ["A"], ["B", "C"], ["B", "C"]],
+[["C"], ["S", "A"], ["S", "B", "A"]],
+[["C", "A"], ["C", "S", "A"]],
+[["A", "S", "B", "C"]]
+]).
+
+table(bookbad1, [
+[["A"], ["A"], ["B", "C"], ["B", "C"]],
+[["C"], ["S", "A"], ["S", "B", "A"]],
+[["C", "A"], ["C", "S", "A"]],
+[["C", "B", "S", "G"]]
+]).
+
+table(bookbad2, [
+[["A"], ["A"], ["B", "C"], ["B", "C"]],
+[["C"], ["S", "A"], ["S", "B", "A"]],
+[["C", "A"], ["C", "A"]],
+[["C", "B", "S", "A"]]
+]).
 
 /*
 get_table_values_cell/3
@@ -190,4 +219,23 @@ equivalent(ListA, ListB) :-
 % If the list isn't empty the function won't be called, returning false
 equivalent_helper([]).
 
+/*
+Prototype: row_equivalent(+RowA,+RowB)
+Succeeds if rows are equivalent (i.e., all corresponding cells are equivalent).
+*/
+row_equivalent([HeadA|RowA],[HeadB|RowB]) :-
+	equivalent(HeadA,HeadB),
+	row_equivalent(RowA,RowB).
+% bsae case of two empty inputs being compared
+row_equivalent([],[]).
+
+/*
+Prototype: table_equivalent(+TableA,+TableB)
+Succeeds if Tables are equivalent (i.e., all corresponding rows are equivalent).
+*/
+table_equivalent([RowA|TableA],[RowB|TableB]) :-
+	row_equivalent(RowA,RowB),
+	table_equivalent(TableA,TableB).
+
+table_equivalent([],[]).
 
