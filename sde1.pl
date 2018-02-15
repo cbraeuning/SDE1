@@ -32,6 +32,13 @@ table(book_result, [
 [["C", "B", "S", "A"]]
 ]).
 
+table(book_result, [
+[["A"], ["A"], ["B", "C"], ["B", "C"]],
+[["C"], ["S", "A"], ["S", "B", "A"]],
+[["C", "A"], ["C", "S", "A"]],
+[["C", "B", "S", "A"]]
+], ["test","b"]).
+
 /*
 get_table_values_cell/3
 Prototype: get_table_values_cell([+Col,+Row],+Table,-ContentsL)
@@ -128,7 +135,33 @@ cell_products_helper(CellList1,CellList2,NewProduct,OrigProduct) :-
 	append(NewProduct,InnerProduct,PassProduct),
 	cell_products_helper(NewCellList1,CellList2,PassProduct,OrigProduct).
 
+/*
+We treat forming 1st row as special case --
+this corresponds to only one input string element per cell
+so there are no RHS nonterminals in productions to consider.
+This is defacto scanning.
+Prototype: form_row1_cell(+StringElement,+ProductionsList,-Row1Cell)
+*/
+form_row1_cell(StringElement,ProductionsList,OrigRow1) :-
+	EmptyList = [],
+	form_row1_cell_helper(StringElement,ProductionsList,EmptyList,OrigRow1).
 
+form_row1_cell_helper(_,[],NewRow1,OrigRow1) :-
+	OrigRow1 = NewRow1.
+
+form_row1_cell_helper(StringElement,ProductionsList,NewRow1,OrigRow1) :-
+	% remove first row from the production list
+	nth1(1,ProductionsList,FirstProd,NewProductionsList),
+	nth1(1,FirstProd,NonTerminal),
+	subtract(FirstProd,[NonTerminal,StringElement],TestProd),
+	is_derivation(TestProd,NonTerminal,IsDerivation),
+	append(IsDerivation,NewRow1,PassRow1),
+	% recursion
+	form_row1_cell_helper(StringElement,NewProductionsList,PassRow1,OrigRow1).
+
+is_derivation([],NonTerminal,[NonTerminal]).
+
+is_derivation(_,_,[]).
 
 
 
