@@ -1,31 +1,26 @@
 %% Collin Braeuning - cbraeun
 %% SDE1	- CYK Parse Tables
 
+
 /*
-named production *set* as arity-2 predicate: productions/2
-Prototype: productions(+Name,-Data).
-*/
+%% named production *set* as arity-2 predicate: productions/2
+%% Prototype: productions(+Name,-Data).
+
 productions(book, [["S","AB"],["S","BB"],["A","CC"],["A","AB"],["A","a"],
 ["B","BB"],["B","CA"],["B","b"],["C","BA"],["C","AA"],["C","b"]]).
 
-/*
-named production *set* as arity-2 predicate: productions/2
-Prototype: productions(+Name,-Data).
-*/
+
+%% named production *set* as arity-2 predicate: productions/2
+%% Prototype: productions(+Name,-Data).
+
 productions(bookTest, [["S","CA"],["S","DB"],["C","b"],["D","c"],["A","CB"],
 ["B","b"],["B","EB"],["E","a"]]).
 
-/*
-string to parse: astring/2
-Prototype: astring(+Name, -Data)
-*/
-astring(bookstring,["a", "a", "b", "b"]).
 
-/*
-table/2
-Prototype: table(+Name,-Data)
-Use the different names to get new sets of data
-*/
+%% table/2
+%% Prototype: table(+Name,-Data)
+%% Use the different names to get new sets of data
+
 table(sample_table4,[
 [["11"],["21"],["31"],["41"]],
 [["12"],["22"],["32"]],
@@ -74,6 +69,13 @@ table(bookbad2, [
 [["C", "A"], ["C", "A"]],
 [["C", "B", "S", "A"]]
 ]).
+
+
+% string to parse: astring/2
+% Prototype: astring(+Name, -Data)
+
+astring(bookstring,["a", "a", "b", "b"]).
+*/
 
 /*
 get_table_values_cell/3
