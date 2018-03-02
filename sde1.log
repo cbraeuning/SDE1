@@ -1,0 +1,220 @@
+?- productions(book, Book).
+
+
+Book = [["S", "AB"], ["S", "BB"], ["A", "CC"], ["A", "AB"], ["A", "a"], ["B", "BB"], ["B", "CA"], ["B"|...], [...|...]|...].
+
+?- productions(book, Book), length(Book, Length).
+
+
+Book = [["S", "AB"], ["S", "BB"], ["A", "CC"], ["A", "AB"], ["A", "a"], ["B", "BB"], ["B", "CA"], ["B"|...], [...|...]|...],
+Length = 11.
+
+?- astring(bookstring,String).
+
+
+String = ["a", "a", "b", "b"].
+
+?- table(book_result, Table).
+
+
+Table = [[["A"], ["A"], ["B", "C"], ["B", "C"]], [["C"], ["S", "A"], ["S", "B", "A"]], [["C", "A"], ["C", "S", "A"]], [["C", "B", "S", "A"]]] 
+
+?- table(book_result, Table), get_table_values_cell([1,2],Table,Cell).
+
+
+Table = [[["A"], ["A"], ["B", "C"], ["B", "C"]], [["C"], ["S", "A"], ["S", "B", "A"]], [["C", "A"], ["C", "S", "A"]], [["C", "B", "S", "A"]]],
+Cell = ["C"] 
+
+?- table(book_result, Table), get_table_values_cell([1,1],Table,Cell).
+
+
+Table = [[["A"], ["A"], ["B", "C"], ["B", "C"]], [["C"], ["S", "A"], ["S", "B", "A"]], [["C", "A"], ["C", "S", "A"]], [["C", "B", "S", "A"]]],
+Cell = ["A"] 
+
+?- table(book_result, Table), get_table_values_cell([1,4],Table,Cell).
+
+
+Table = [[["A"], ["A"], ["B", "C"], ["B", "C"]], [["C"], ["S", "A"], ["S", "B", "A"]], [["C", "A"], ["C", "S", "A"]], [["C", "B", "S", "A"]]],
+Cell = ["C", "B", "S", "A"] 
+
+
+?- decompositions(1,Decomp).
+
+
+Decomp = [] 
+
+?- decompositions(6,Decomp).
+
+
+Decomp = [[5, 1], [4, 2], [3, 3], [2, 4], [1, 5]] 
+
+?- decompositions(7,Decomp).
+
+
+Decomp = [[6, 1], [5, 2], [4, 3], [3, 4], [2, 5], [1, 6]] ;
+
+?- decompositions(8,Decomp).
+
+
+Decomp = [[7, 1], [6, 2], [5, 3], [4, 4], [3, 5], [2, 6], [1, 7]] 
+
+?- one_product("1",["2","3"],Product).
+
+
+Product = ["12", "13"] 
+
+?- one_product("1",["23","45"],Product).
+
+
+Product = ["123", "145"] 
+
+?- one_product("1",[],Product).
+
+
+Product = [] 
+
+?- one_product("1",["A","B","C","D"],Product).
+
+
+Product = ["1A", "1B", "1C", "1D"] 
+
+?- cell_products([],[],CellProd).
+
+
+CellProd = [] 
+
+?- cell_products([],["1"],CellProd).
+
+
+CellProd = [] 
+
+?- cell_products(["1"],[],CellProd).
+
+
+CellProd = [] 
+
+?- cell_products(["1","2"],["3","4"],CellProd).
+
+
+CellProd = ["13", "14", "23", "24"] 
+
+?- cell_products(["12","45"],["6","12"],CellProd).
+
+
+CellProd = ["126", "1212", "456", "4512"] 
+
+?- cell_products(["12","45"],["6","12","111"],CellProd).
+
+
+CellProd = ["126", "1212", "12111", "456", "4512", "45111"] 
+
+?- productions(bookTest,Productions), form_row1_cell("b",Productions,Cell).
+
+
+Productions = [["S", "CA"], ["S", "DB"], ["C", "b"], ["D", "c"], ["A", "CB"], ["B", "b"], ["B", "EB"], ["E"|...]],
+Cell = ["C", "B"] 
+
+?- productions(bookTest,Productions), form_row1_cell("a",Productions,Cell).
+
+
+Productions = [["S", "CA"], ["S", "DB"], ["C", "b"], ["D", "c"], ["A", "CB"], ["B", "b"], ["B", "EB"], ["E"|...]],
+Cell = ["E"] 
+
+?- productions(bookTest,Productions), form_row1_cell("",Productions,Cell).
+
+
+Productions = [["S", "CA"], ["S", "DB"], ["C", "b"], ["D", "c"], ["A", "CB"], ["B", "b"], ["B", "EB"], ["E"|...]],
+Cell = [].
+
+?- productions(bookTest,Productions), form_row1_cell("c",Productions,Cell).
+
+
+Productions = [["S", "CA"], ["S", "DB"], ["C", "b"], ["D", "c"], ["A", "CB"], ["B", "b"], ["B", "EB"], ["E"|...]],
+Cell = ["D"] 
+
+?- equivalent(["A","E"],["E","A"]).
+
+
+true.
+
+?- equivalent(["A","E"],["E","A"]).
+
+
+true.
+
+?- equivalent(["A","E"],["E","A","A"]).
+
+
+true.
+
+?- equivalent(["A","E"],["E","A","F"]).
+
+
+false.
+
+?- equivalent(["A","E"],["E","A",""]).
+
+
+false.
+
+?- equivalent(["A","E","C"],["E","A"]).
+
+
+false.
+
+?- equivalent(["D","A","E","C"],["E","C","A","D"]).
+
+
+true.
+
+?- row_equivalent([[],[]],[[],[]]).
+
+
+true.
+
+?- row_equivalent([["B"],["A"]],[["A"],["B"]]).
+
+
+false.
+
+?- row_equivalent([["B"],["A"]],[["B"],["A"]]).
+
+
+true.
+
+?- row_equivalent([["B"],["A"]],[["B"],["A"],[]]).
+
+
+false.
+
+?- row_equivalent([["B"],["A"],["C"]],[["B"],["A"],["C"]]).
+
+
+true.
+
+?- table(bookTest,Book1),table(bookTest,Book2),table_equivalent(Book1,Book2).
+
+
+false.
+
+?- table(sample_table4,Book1),table(sample_table4,Book2),table_equivalent(Book1,Book2).
+
+
+Book1 = Book2, Book2 = [[["11"], ["21"], ["31"], ["41"]], [["12"], ["22"], ["32"]], [["13"], ["23"]], [["14"]]].
+
+?- table(sample_table4,Book1),table_equivalent([],Book1).
+
+
+false.
+
+?- table(sample_table4,Book1),table_equivalent(Book1,[]).
+
+
+false.
+
+?- table(sample_table4,Book1),table(book,Book2),table_equivalent(Book1,Book2).
+
+
+false.
+
+?- noprotocol.
