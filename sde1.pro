@@ -9,6 +9,13 @@ productions(book, [["S","AB"],["S","BB"],["A","CC"],["A","AB"],["A","a"],
 ["B","BB"],["B","CA"],["B","b"],["C","BA"],["C","AA"],["C","b"]]).
 
 /*
+named production *set* as arity-2 predicate: productions/2
+Prototype: productions(+Name,-Data).
+*/
+productions(bookTest, [["S","CA"],["S","DB"],["C","b"],["D","c"],["A","CB"],
+["B","b"],["B","EB"],["E","a"]]).
+
+/*
 string to parse: astring/2
 Prototype: astring(+Name, -Data)
 */
